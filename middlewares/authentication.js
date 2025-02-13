@@ -13,7 +13,7 @@ function checkAuthCookie(cookieName){
             req.user = userPayload;
         }
         catch(error){
-            // pass
+            console.error("Error validating token", error);
         }
 
         return next();
