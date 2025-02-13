@@ -1,7 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
+
+app.use(cors());
 
 const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI)
@@ -11,9 +14,14 @@ mongoose.connect(MONGODB_URI)
 const app = express();
 const PORT = 9000;
 
-app.use(cors());
+const { logReqRes } = require('./middlewares/logs');
+const { checkAuthCookie } = require('./middlewares/authentication');
+
+app.use(logReqRes("log.txt"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(checkAuthCookie("token"));
 
 app.get('/', (req, res) => {
     res.send('Server has started successfully !!!');
