@@ -19,6 +19,9 @@ app.get('/', (req, res) => {
     res.send('Server has started successfully !!!');
 });
 
+const userRouter = require('./routes/user');
+app.use('/user', userRouter);
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     console.log(`\n\nhttp://localhost:${PORT}\n\n`);
