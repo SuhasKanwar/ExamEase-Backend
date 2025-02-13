@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function logReqRes(fileName){
+function logger(fileName){
     return (req, res, next) => {
         if(req.url != "/favicon.ico"){
             fs.appendFile(
@@ -15,5 +15,5 @@ function logReqRes(fileName){
 };
 
 module.exports = {
-    logReqRes
+    logger
 };

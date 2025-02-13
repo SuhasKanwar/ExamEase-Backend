@@ -14,23 +14,28 @@ mongoose.connect(MONGODB_URI)
 const app = express();
 const PORT = 9000;
 
-const { logReqRes } = require('./middlewares/logs');
+const { logger } = require('./middlewares/logs');
 const { checkAuthCookie } = require('./middlewares/authentication');
 
-app.use(logReqRes("log.txt"));
+app.use(logger("log.txt"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(checkAuthCookie("token"));
 
+const userRouter = require('./routes/user');
+
 app.get('/', (req, res) => {
     res.send('Server has started successfully !!!');
 });
-
-const userRouter = require('./routes/user');
 app.use('/user', userRouter);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    console.log(`\n\nhttp://localhost:${PORT}\n\n`);
+app.listen(PORT, (error) => {
+    if(error){
+        console.log("Error connecting with server", error);
+    }
+    else{
+        console.log(`Server is listening on port -> ${PORT}`);
+        console.log(`\n\nhttp://localhost:${PORT}\n\n`);
+    }
 });
