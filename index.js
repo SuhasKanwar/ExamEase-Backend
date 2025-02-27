@@ -4,8 +4,6 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-app.use(cors());
-
 const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI)
     .then(() => { console.log('Connected to MongoDB!!!') })
@@ -13,6 +11,8 @@ mongoose.connect(MONGODB_URI)
 
 const app = express();
 const PORT = 9000;
+
+app.use(cors());
 
 const { logger } = require('./middlewares/logs');
 const { checkAuthCookie } = require('./middlewares/authentication');

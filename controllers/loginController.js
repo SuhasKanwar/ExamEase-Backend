@@ -8,23 +8,17 @@ exports.signupHandler = async (req, res) => {
       email,
       password,
     });
-    return res.json(
+    return res.status(200).json(
       {
         success: true,
         message: "Signup Successful",
-      },
-      {
-        status: 200,
       }
     );
   } catch (error) {
-    return res.json(
+    return res.status(500).json(
       {
         success: false,
         message: "Internal Server Error",
-      },
-      {
-        status: 500,
       }
     );
   }
@@ -35,23 +29,17 @@ exports.loginHandler = async (req, res) => {
     const { email, password } = req.body;
     const token = await Users.matchPassword(email, password);
 
-    return res.cookie("token", token).json(
+    return res.cookie("token", token).status(200).json(
       {
         success: true,
         message: "Login Successful",
-      },
-      {
-        status: 200,
       }
     );
   } catch (error) {
-    return res.json(
+    return res.status(500).json(
       {
         success: false,
         message: "Internal Server Error",
-      },
-      {
-        status: 500,
       }
     );
   }
